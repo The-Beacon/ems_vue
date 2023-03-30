@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="the.beacon.emsvue.dao.EmpDAO">
+
+    <cache type="the.beacon.emsvue.cache.RedisCache" />
+
+    <resultMap id="BaseResultMap" type="the.beacon.emsvue.entity.Emp">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="path" column="path" jdbcType="VARCHAR"/>
+            <result property="salary" column="salary" jdbcType="DOUBLE"/>
+            <result property="age" column="age" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,path,
+        salary,age
+    </sql>
+
+    <!--findAll 注意：不能直接写*，似乎和redis不兼容？-->
+    <select id="findAll" resultType="the.beacon.emsvue.entity.Emp">
+        select id, name, path, salary, age from t_emp
+    </select>
+
+    <select id="findById" parameterType="string" resultType="the.beacon.emsvue.entity.Emp">
+        select * from t_emp where id = #{id}
+    </select>
+
+    <insert id="save" parameterType="the.beacon.emsvue.entity.Emp" useGeneratedKeys="true" keyProperty="id">
+        insert into t_emp values (#{id}, #{name}, #{path}, #{salary}, #{age})
+    </insert>
+
+    <delete id="deleteById" parameterType="string">
+        delete from t_emp where id = #{id}
+    </delete>
+
+    <update id="update" parameterType="the.beacon.emsvue.entity.Emp">
+        update t_emp set
+                         name = #{name},
+                         path = #{path},
+                         salary = #{salary},
+                         age = #{age}
+                    where id = #{id}
+    </update>
+
+</mapper>

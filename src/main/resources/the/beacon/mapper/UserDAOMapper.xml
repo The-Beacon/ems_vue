@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="the.beacon.emsvue.dao.UserDAO">
+
+    <!--save-->
+    <insert id="save" parameterType="the.beacon.emsvue.entity.User" useGeneratedKeys="true" keyProperty="id">
+        insert into t_user values (#{id}, #{username}, #{realname}, #{password}, #{sex}, #{status}, #{registerTime})
+    </insert>
+
+    <!--find-->
+    <select id="findByUserName" parameterType="String" resultType="the.beacon.emsvue.entity.User">
+        select * from t_user where username = #{username}
+    </select>
+</mapper>
